@@ -23,11 +23,13 @@ class _ManageFoodScreenState extends State<ManageFoodScreen> {
     _loadFoodItems();
   }
 
+  // Load all food items from database
   Future<void> _loadFoodItems() async {
     final items = await AppDatabase.instance.getAllFoodItems();
     setState(() => _foodItems = items);
   }
 
+  // Dialog for adding or editing a food item
   Future<void> _showFoodDialog({FoodItem? existing}) async {
     final nameController =
     TextEditingController(text: existing?.name ?? '');
@@ -89,6 +91,7 @@ class _ManageFoodScreenState extends State<ManageFoodScreen> {
       return;
     }
 
+    // Add or update item in the database
     if (existing == null) {
       await AppDatabase.instance.insertFoodItem(
         FoodItem(name: name, price: price),
@@ -102,6 +105,7 @@ class _ManageFoodScreenState extends State<ManageFoodScreen> {
     await _loadFoodItems();
   }
 
+  // Delete selected item with confirmation dialog
   Future<void> _deleteItem(FoodItem item) async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -185,6 +189,8 @@ class _ManageFoodScreenState extends State<ManageFoodScreen> {
           ),
         ),
       ),
+
+      // Floating button to add a new food item
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showFoodDialog(),
         icon: const Icon(Icons.add),
