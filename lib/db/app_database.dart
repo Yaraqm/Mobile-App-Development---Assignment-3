@@ -5,18 +5,21 @@ import '../models/food_item.dart';
 import '../models/order_plan.dart';
 import 'dart:io';
 
+//Mian database handler clasas responsible for all local DB operations
 class AppDatabase {
   static final AppDatabase instance = AppDatabase._init();
   static Database? _database;
 
   AppDatabase._init();
 
+  // Lazy initialization of the database instance
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB('food_app.db');
     return _database!;
   }
 
+  // Initialize database and define path for local storage
   Future<Database> _initDB(String fileName) async {
     final Directory documentsDir = await getApplicationDocumentsDirectory();
     final String path = join(documentsDir.path, fileName);
@@ -28,6 +31,7 @@ class AppDatabase {
     );
   }
 
+  // Create all database tables during first initialization
   Future _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE food_items (
@@ -59,6 +63,7 @@ class AppDatabase {
     await _insertInitialFoodItems(db);
   }
 
+  // Insert predefined food items when the database is created
   Future<void> _insertInitialFoodItems(Database db) async {
     final items = [
       {'name': 'Burger', 'price': 8.99},
