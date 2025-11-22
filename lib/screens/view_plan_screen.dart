@@ -30,6 +30,7 @@ class _ViewPlanScreenState extends State<ViewPlanScreen> {
     _loadPlan();
   }
 
+  // Opens date picker to select date for plan query
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -43,6 +44,7 @@ class _ViewPlanScreenState extends State<ViewPlanScreen> {
     }
   }
 
+  // Fetches plan and related food items from DB for selected date
   Future<void> _loadPlan() async {
     setState(() => _isLoading = true);
 
@@ -70,6 +72,7 @@ class _ViewPlanScreenState extends State<ViewPlanScreen> {
       appBar: AppBar(
         title: const Text('View Order Plan'),
         actions: [
+          // Search icon to pick another date
           IconButton(
             icon: const Icon(Icons.search),
             tooltip: 'Search by date',
@@ -93,6 +96,7 @@ class _ViewPlanScreenState extends State<ViewPlanScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
+                // Card showing current selected date
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(18),
@@ -133,6 +137,7 @@ class _ViewPlanScreenState extends State<ViewPlanScreen> {
 
                 const SizedBox(height: 16),
 
+                // Content section based on query result
                 Expanded(
                   child: _isLoading
                       ? const Center(child: CircularProgressIndicator())
@@ -150,6 +155,7 @@ class _ViewPlanScreenState extends State<ViewPlanScreen> {
                       : Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      // Display plan summary with totals
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(18),
@@ -184,6 +190,7 @@ class _ViewPlanScreenState extends State<ViewPlanScreen> {
                         ),
                       ),
                       const SizedBox(height: 6),
+                      // List of food items under the plan
                       Expanded(
                         child: ListView.builder(
                           itemCount: _foods.length,
