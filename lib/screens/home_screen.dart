@@ -36,11 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadExistingPlanForDate();
   }
 
+  // Load all available food items from database
   Future<void> _loadFoodItems() async {
     final items = await AppDatabase.instance.getAllFoodItems();
     setState(() => _foodItems = items);
   }
 
+  // Show a date picker to select plan date
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -54,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Dialog for entering daily budget/target cost
   Future<void> _showBudgetDialog() async {
     final controller =
     TextEditingController(text: _targetCost.toStringAsFixed(2));
@@ -99,6 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Load existing saved plan for selected date (if any)
   Future<void> _loadExistingPlanForDate() async {
     final data =
     await AppDatabase.instance.getOrderPlanByDate(_formattedDate);
@@ -124,6 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // Toggle selection of food item while ensuring budget limit
   void _toggleSelection(FoodItem item) {
     if (!_isEditing) return;
 
@@ -148,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // Save order plan for selected date to local DB
   Future<void> _savePlan() async {
     if (_targetCost <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -175,6 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Switch to edit mode to modify food selections
   void _enableFoodEditing() {
     setState(() => _isEditing = true);
   }
